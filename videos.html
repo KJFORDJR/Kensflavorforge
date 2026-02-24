@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stream & Videos — Ken's Flavor Forge</title>
+  <meta name="description" content="Watch Ken cook live on Twitch and browse past episodes. New streams every Tuesday, Thursday, and Saturday.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    /* ---- Twitch embed responsive wrapper ---- */
+    .twitch-embed-wrap {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 */
+      background: #000;
+    }
+    .twitch-embed-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    /* ---- Full embed layout ---- */
+    .embed-layout {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 0;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid rgba(100,65,165,0.3);
+      background: #18181b;
+    }
+
+    .embed-player { background: #000; }
+
+    .embed-chat iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 520px;
+      border: none;
+      display: block;
+      border-left: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .embed-notice {
+      padding: 16px 24px;
+      background: rgba(100,65,165,0.15);
+      border-top: 1px solid rgba(100,65,165,0.2);
+      font-size: 0.82rem;
+      color: rgba(240,240,240,0.5);
+      font-style: italic;
+    }
+
+    /* ---- Past episodes grid ---- */
+    .episodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 24px;
+    }
+
+    .episode-card {
+      background: var(--dark-card);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.06);
+      transition: transform var(--transition), border-color var(--transition);
+    }
+
+    .episode-card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(200,75,17,0.3);
+    }
+
+    .episode-thumb {
+      position: relative;
+      aspect-ratio: 16/9;
+      overflow: hidden;
+    }
+
+    .episode-thumb img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .episode-card:hover .episode-thumb img { transform: scale(1.05); }
+
+    .episode-thumb .ep-play {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.3);
+      transition: background var(--transition);
+    }
+
+    .episode-card:hover .ep-play { background: rgba(0,0,0,0.45); }
+
+    .ep-play-circle {
+      width: 52px;
+      height: 52px;
+      background: rgba(200,75,17,0.85);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform var(--transition);
+    }
+
+    .episode-card:hover .ep-play-circle { transform: scale(1.12); }
+
+    .episode-body {
+      padding: 18px 20px;
+    }
+
+    .episode-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .ep-date {
+      font-size: 0.78rem;
+      color: rgba(240,240,240,0.4);
+      font-family: 'Oswald', sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .ep-duration {
+      font-size: 0.78rem;
+      color: rgba(240,240,240,0.4);
+    }
+
+    .episode-body h3 {
+      font-size: 1.1rem;
+      color: var(--text-light);
+      margin-bottom: 8px;
+    }
+
+    .episode-body p {
+      font-size: 0.85rem;
+      color: rgba(240,240,240,0.5);
+      line-height: 1.6;
+    }
+
+    /* ---- Schedule ---- */
+    @media (max-width: 900px) {
+      .embed-layout { grid-template-columns: 1fr; }
+      .embed-chat { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="site-header light" role="banner">
+    <div class="container">
+      <nav class="nav-inner" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo" aria-label="Ken's Flavor Forge Home">
+          <div class="logo-icon" aria-hidden="true">🔥</div>
+          <div class="logo-text">Ken's <span>Flavor Forge</span></div>
+        </a>
+        <ul class="nav-links" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="recipes.html">Recipes</a></li>
+          <li><a href="videos.html" class="active">Stream</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <div class="nav-live">
+          <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" class="live-badge offline">
+            <span class="dot"></span> Twitch
+          </a>
+        </div>
+        <button class="nav-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== PAGE HERO ==================== -->
+  <section class="page-hero" style="background: linear-gradient(135deg, #0e0e10, #1a0a30);">
+    <div class="container">
+      <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span aria-hidden="true">›</span>
+        <span>Stream</span>
+      </div>
+      <h1 class="display" style="color:var(--white);">Watch <span style="color:#a78bfa;">Ken Live</span></h1>
+      <p>Tune in on Twitch every Tuesday, Thursday, and Saturday — live cooks, real recipes, and real chat.</p>
+    </div>
+  </section>
+
+  <!-- ==================== LIVE STREAM ==================== -->
+  <section class="section" style="background:#0E0E10; padding-bottom:48px;">
+    <div class="container">
+
+      <div class="section-header fade-up" style="margin-bottom:32px;">
+        <span class="section-label" style="color:#a78bfa;">Live on Twitch</span>
+        <h2 style="color:var(--white);">The Stream</h2>
+        <p style="color:rgba(240,240,240,0.55);">
+          Watch the embedded stream below, or head directly to
+          <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" style="color:#a78bfa;">twitch.tv/KensFlavorForge</a>.
+          Chat is live on the right.
+        </p>
+      </div>
+
+      <!-- NOTE: Replace YOUR_TWITCH_USERNAME with Ken's Twitch channel name.
+           The "parent" parameter must match the domain the page is served from.
+           For local testing use "localhost". For production change to your domain. -->
+      <div class="embed-layout fade-up">
+        <div class="embed-player">
+          <div class="twitch-embed-wrap">
+            <iframe
+              src="https://player.twitch.tv/?channel=YOUR_TWITCH_USERNAME&parent=localhost&autoplay=false"
+              allowfullscreen
+              title="Ken's Flavor Forge Live on Twitch"
+            ></iframe>
+          </div>
+          <div class="embed-notice">
+            💡 To watch on Twitch directly, <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" style="color:#a78bfa;">click here</a>. Update the channel name in <code>videos.html</code> to match Ken's Twitch username.
+          </div>
+        </div>
+        <div class="embed-chat">
+          <iframe
+            src="https://www.twitch.tv/embed/YOUR_TWITCH_USERNAME/chat?parent=localhost&darkpopout"
+            title="Ken's Flavor Forge Twitch Chat"
+          ></iframe>
+        </div>
+      </div>
+
+      <!-- Stream info -->
+      <div class="stream-info fade-up">
+        <div>
+          <h3>Ken's Flavor Forge</h3>
+          <p>Live cooking — real fire, real food, real chat. Follow to get notified when Ken goes live.</p>
+        </div>
+        <div class="stream-stats">
+          <div class="stat-item">
+            <div class="num">100+</div>
+            <div class="label">Episodes</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">3x</div>
+            <div class="label">Per Week</div>
+          </div>
+          <div class="stat-item">
+            <div class="num">60+</div>
+            <div class="label">Recipes</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== SCHEDULE ==================== -->
+  <section class="section-sm section-dark">
+    <div class="container">
+      <div class="section-header fade-up" style="margin-bottom:32px;">
+        <span class="section-label">When to Tune In</span>
+        <h2 style="color:var(--white);">Stream Schedule</h2>
+        <p style="color:rgba(240,240,240,0.55);">All times Central. Follow on Twitch to get notified.</p>
+      </div>
+
+      <div class="schedule-grid fade-up">
+        <div class="schedule-card today">
+          <div class="day">Monday</div>
+          <div class="off">OFF</div>
+        </div>
+        <div class="schedule-card today">
+          <div class="day">Tuesday</div>
+          <div class="time">7 PM</div>
+          <div class="show">Weeknight Fire</div>
+        </div>
+        <div class="schedule-card">
+          <div class="day">Wednesday</div>
+          <div class="off">OFF</div>
+        </div>
+        <div class="schedule-card">
+          <div class="day">Thursday</div>
+          <div class="time">7 PM</div>
+          <div class="show">Forge Thursday</div>
+        </div>
+        <div class="schedule-card">
+          <div class="day">Friday</div>
+          <div class="off">OFF</div>
+        </div>
+        <div class="schedule-card">
+          <div class="day">Saturday</div>
+          <div class="time">2 PM</div>
+          <div class="show">Weekend Smoke</div>
+        </div>
+        <div class="schedule-card">
+          <div class="day">Sunday</div>
+          <div class="off">OFF</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PAST EPISODES ==================== -->
+  <section class="section section-dark-mid">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="section-label">Vault</span>
+        <h2 style="color:var(--white);">Past Episodes</h2>
+        <p style="color:rgba(240,240,240,0.55);">Missed a stream? Browse recent episodes below — full cooks, start to finish.</p>
+      </div>
+
+      <div class="episodes-grid">
+
+        <article class="episode-card fade-up">
+          <div class="episode-thumb">
+            <img src="https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&q=80" alt="Smoked Bourbon Glazed Wings episode" loading="lazy">
+            <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" class="ep-play" aria-label="Watch Smoked Bourbon Glazed Wings">
+              <div class="ep-play-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
+              </div>
+            </a>
+          </div>
+          <div class="episode-body">
+            <div class="episode-meta">
+              <span class="ep-date">Feb 22, 2025</span>
+              <span class="ep-duration">2h 14m</span>
+            </div>
+            <h3>Smoked Bourbon Glazed Wings</h3>
+            <p>Full cook from dry rub to glaze. 2 hrs on the smoker, finished hot and sticky.</p>
+          </div>
+        </article>
+
+        <article class="episode-card fade-up">
+          <div class="episode-thumb">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80" alt="Grilled Bone-In Ribeye episode" loading="lazy">
+            <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" class="ep-play" aria-label="Watch Grilled Bone-In Ribeye">
+              <div class="ep-play-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
+              </div>
+            </a>
+          </div>
+          <div class="episode-body">
+            <div class="episode-meta">
+              <span class="ep-date">Feb 20, 2025</span>
+              <span class="ep-duration">1h 32m</span>
+            </div>
+            <h3>Grilled Bone-In Ribeye</h3>
+            <p>Dry brine method, live sear technique, and compound butter finish. Pure steak mastery.</p>
+          </div>
+        </article>
+
+        <article class="episode-card fade-up">
+          <div class="episode-thumb">
+            <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&q=80" alt="12-Hour Pulled Pork episode" loading="lazy">
+            <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" class="ep-play" aria-label="Watch 12-Hour Pulled Pork">
+              <div class="ep-play-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
+              </div>
+            </a>
+          </div>
+          <div class="episode-body">
+            <div class="episode-meta">
+              <span class="ep-date">Feb 15, 2025</span>
+              <span class="ep-duration">3h 45m</span>
+            </div>
+            <h3>12-Hour Pulled Pork Marathon</h3>
+            <p>Ken's biggest stream yet — the full 12-hour smoke condensed into a 3-hour watch party.</p>
+          </div>
+        </article>
+
+        <article class="episode-card fade-up">
+          <div class="episode-thumb">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80" alt="Smoky Beef Chili episode" loading="lazy">
+            <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" class="ep-play" aria-label="Watch Smoky Beef Chili">
+              <div class="ep-play-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
+              </div>
+            </a>
+          </div>
+          <div class="episode-body">
+            <div class="episode-meta">
+              <span class="ep-date">Feb 13, 2025</span>
+              <span class="ep-duration">2h 58m</span>
+            </div>
+            <h3>Cast Iron Smoky Beef Chili</h3>
+            <p>Building the perfect chili base live — smoked brisket and ground chuck together.</p>
+          </div>
+        </article>
+
+        <article class="episode-card fade-up">
+          <div class="episode-thumb">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80" alt="Whiskey Braised Short Ribs episode" loading="lazy">
+            <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" class="ep-play" aria-label="Watch Whiskey Braised Short Ribs">
+              <div class="ep-play-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
+              </div>
+            </a>
+          </div>
+          <div class="episode-body">
+            <div class="episode-meta">
+              <span class="ep-date">Feb 8, 2025</span>
+              <span class="ep-duration">2h 22m</span>
+            </div>
+            <h3>Whiskey Braised Short Ribs</h3>
+            <p>Tennessee whiskey reduction, root vegetables, and a braise that builds all afternoon.</p>
+          </div>
+        </article>
+
+        <article class="episode-card fade-up">
+          <div class="episode-thumb">
+            <img src="https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=600&q=80" alt="One-Pan Skillet Paella episode" loading="lazy">
+            <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" class="ep-play" aria-label="Watch One-Pan Skillet Paella">
+              <div class="ep-play-circle">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="white" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
+              </div>
+            </a>
+          </div>
+          <div class="episode-body">
+            <div class="episode-meta">
+              <span class="ep-date">Feb 6, 2025</span>
+              <span class="ep-duration">1h 48m</span>
+            </div>
+            <h3>One-Pan Skillet Paella</h3>
+            <p>Saffron, chorizo, and mussels — live demo on getting the perfect socarrat crust.</p>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CTA STRIP ==================== -->
+  <section class="section-sm" style="background:linear-gradient(135deg,#6441a5,#4a2d80); padding:60px 0;">
+    <div class="container text-center fade-up">
+      <h2 style="font-size:clamp(2rem,4vw,3rem); color:var(--white); margin-bottom:12px;">Never Miss a Stream</h2>
+      <p style="color:rgba(255,255,255,0.7); font-size:1.05rem; margin-bottom:32px; max-width:500px; margin-left:auto; margin-right:auto;">
+        Hit Follow on Twitch and get notified the moment Ken goes live. It's free and the fire is always worth watching.
+      </p>
+      <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" class="btn" style="background:var(--white); color:#6441a5; font-family:'Oswald',sans-serif; font-weight:700; padding:15px 36px; border-radius:8px; font-size:1.05rem; letter-spacing:0.08em; text-transform:uppercase;">
+        🟣 Follow on Twitch
+      </a>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-text">Ken's <span>Flavor Forge</span></div>
+          <p>Bold recipes, big flavor, and live cooking every week on Twitch.</p>
+          <div class="footer-social">
+            <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" aria-label="Twitch">🟣</a>
+            <a href="#" aria-label="YouTube">📺</a>
+            <a href="#" aria-label="Instagram">📸</a>
+            <a href="#" aria-label="TikTok">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="videos.html">Stream</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="recipes.html">Grilling</a></li>
+            <li><a href="recipes.html">Smoking</a></li>
+            <li><a href="recipes.html">Cast Iron</a></li>
+            <li><a href="recipes.html">Low & Slow</a></li>
+            <li><a href="recipes.html">Game Day</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener">Watch on Twitch</a></li>
+            <li><a href="#">Subscribe on YouTube</a></li>
+            <li><a href="#">Follow on Instagram</a></li>
+            <li><a href="contact.html">Work With Ken</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Ken's Flavor Forge. All rights reserved.</p>
+        <p>Made with 🔥 in Ken's kitchen.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
