@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Recipes — Ken's Flavor Forge</title>
+  <meta name="description" content="Browse all of Ken's recipes — grilling, smoking, cast iron, low & slow, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+  <style>
+    .recipe-hero-bg {
+      background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1600&q=80');
+    }
+
+    .recipe-count {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(200,75,17,0.12);
+      border: 1px solid rgba(200,75,17,0.3);
+      border-radius: 4px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--primary-light);
+      margin-bottom: 16px;
+    }
+
+    /* Full recipe grid on recipes page */
+    .recipes-page .recipe-grid {
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+
+    .no-results {
+      display: none;
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--text-mid);
+      font-family: 'Oswald', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+    }
+  </style>
+</head>
+<body class="recipes-page">
+
+  <!-- ==================== HEADER ==================== -->
+  <header class="site-header light" role="banner">
+    <div class="container">
+      <nav class="nav-inner" aria-label="Main navigation">
+        <a href="index.html" class="nav-logo" aria-label="Ken's Flavor Forge Home">
+          <div class="logo-icon" aria-hidden="true">🔥</div>
+          <div class="logo-text">Ken's <span>Flavor Forge</span></div>
+        </a>
+
+        <ul class="nav-links" role="list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="recipes.html" class="active">Recipes</a></li>
+          <li><a href="videos.html">Stream</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+
+        <div class="nav-live">
+          <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" class="live-badge offline">
+            <span class="dot"></span> Twitch
+          </a>
+        </div>
+
+        <button class="nav-toggle" aria-label="Toggle mobile menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ==================== PAGE HERO ==================== -->
+  <section class="page-hero" style="background-image: linear-gradient(rgba(15,15,15,0.75), rgba(15,15,15,0.9)), url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1600&q=80'); background-size:cover; background-position:center;">
+    <div class="container">
+      <div class="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span aria-hidden="true">›</span>
+        <span>Recipes</span>
+      </div>
+      <div class="recipe-count">🔥 The Full Collection</div>
+      <h1 class="display">All Recipes</h1>
+      <p>Every dish Ken has forged — from quick weeknight fires to 12-hour smoke sessions.</p>
+    </div>
+  </section>
+
+  <!-- ==================== RECIPES SECTION ==================== -->
+  <section class="section section-cream">
+    <div class="container">
+
+      <!-- Filter Bar -->
+      <div class="filter-bar fade-up" role="group" aria-label="Filter recipes by category">
+        <button class="filter-btn active" data-filter="all">All Recipes</button>
+        <button class="filter-btn" data-filter="grill">🔥 Grill</button>
+        <button class="filter-btn" data-filter="smoke">💨 Smoke</button>
+        <button class="filter-btn" data-filter="cast-iron">🍳 Cast Iron</button>
+        <button class="filter-btn" data-filter="low-slow">⏳ Low & Slow</button>
+        <button class="filter-btn" data-filter="game-day">🏈 Game Day</button>
+        <button class="filter-btn" data-filter="seafood">🦐 Seafood</button>
+      </div>
+
+      <div class="recipe-grid stagger" id="recipe-grid">
+
+        <!-- 1 -->
+        <article class="recipe-card fade-up" data-category="smoke">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=600&q=80" alt="Smoked Bourbon Glazed Wings" loading="lazy">
+            <span class="card-category cat-smoke">Smoke</span>
+          </div>
+          <div class="card-body">
+            <h3>Smoked Bourbon Glazed Wings</h3>
+            <p>Two hours on the smoker, finished with a sticky bourbon glaze that caramelizes to perfection. This week's Forge Feature.</p>
+            <div class="card-footer-row">
+              <div class="card-meta">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 2.5 hr</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 4–6</span>
+              </div>
+              <a href="#" class="card-link">Recipe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2 -->
+        <article class="recipe-card fade-up" data-category="grill">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80" alt="Grilled Bone-In Ribeye" loading="lazy">
+            <span class="card-category cat-grill">Grill</span>
+          </div>
+          <div class="card-body">
+            <h3>Grilled Bone-In Ribeye</h3>
+            <p>Dry-brined overnight, seared over screaming-hot coals, finished with compound herb butter. A date-night centerpiece.</p>
+            <div class="card-footer-row">
+              <div class="card-meta">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 45 min</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 2</span>
+              </div>
+              <a href="#" class="card-link">Recipe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3 -->
+        <article class="recipe-card fade-up" data-category="smoke">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=600&q=80" alt="Low and Slow Pulled Pork" loading="lazy">
+            <span class="card-category cat-smoke">Smoke</span>
+          </div>
+          <div class="card-body">
+            <h3>Low & Slow Pulled Pork</h3>
+            <p>12 hours over hickory smoke. A classic pork shoulder rubbed, wrapped, and pulled at the perfect moment.</p>
+            <div class="card-footer-row">
+              <div class="card-meta">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 12 hr</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 8–10</span>
+              </div>
+              <a href="#" class="card-link">Recipe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 4 -->
+        <article class="recipe-card fade-up" data-category="cast-iron">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1547592180-85f173990554?w=600&q=80" alt="Cast Iron Smoky Beef Chili" loading="lazy">
+            <span class="card-category cat-cast-iron">Cast Iron</span>
+          </div>
+          <div class="card-body">
+            <h3>Cast Iron Smoky Beef Chili</h3>
+            <p>No beans, no apologies. Ground chuck and smoked brisket in a rich, deeply seasoned chili base.</p>
+            <div class="card-footer-row">
+              <div class="card-meta">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 3 hr</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 6</span>
+              </div>
+              <a href="#" class="card-link">Recipe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5 -->
+        <article class="recipe-card fade-up" data-category="grill">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80" alt="Spicy Chipotle Shrimp Tacos" loading="lazy">
+            <span class="card-category cat-grill">Grill</span>
+          </div>
+          <div class="card-body">
+            <h3>Spicy Chipotle Shrimp Tacos</h3>
+            <p>Charred shrimp with chipotle marinade, mango slaw, and a crema that ties it all together. Fast and fiery.</p>
+            <div class="card-footer-row">
+              <div class="card-meta">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 30 min</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 4</span>
+              </div>
+              <a href="#" class="card-link">Recipe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6 -->
+        <article class="recipe-card fade-up" data-category="low-slow">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80" alt="Whiskey Braised Short Ribs" loading="lazy">
+            <span class="card-category cat-low-slow">Low & Slow</span>
+          </div>
+          <div class="card-body">
+            <h3>Whiskey Braised Short Ribs</h3>
+            <p>Fall-off-the-bone short ribs braised low and slow with Tennessee whiskey and root vegetables.</p>
+            <div class="card-footer-row">
+              <div class="card-meta">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 4 hr</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 4</span>
+              </div>
+              <a href="#" class="card-link">Recipe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 7 -->
+        <article class="recipe-card fade-up" data-category="cast-iron">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1534080564583-6be75777b70a?w=600&q=80" alt="One-Pan Skillet Paella" loading="lazy">
+            <span class="card-category cat-cast-iron">One-Pan</span>
+          </div>
+          <div class="card-body">
+            <h3>One-Pan Skillet Paella</h3>
+            <p>Saffron, chorizo, mussels, and that perfect socarrat crust — all done in one cast iron skillet.</p>
+            <div class="card-footer-row">
+              <div class="card-meta">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 50 min</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 4–6</span>
+              </div>
+              <a href="#" class="card-link">Recipe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 8 -->
+        <article class="recipe-card fade-up" data-category="game-day">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1551782450-a2132b4ba21d?w=600&q=80" alt="Game Day Loaded Nachos" loading="lazy">
+            <span class="card-category cat-game-day">Game Day</span>
+          </div>
+          <div class="card-body">
+            <h3>Loaded Smoked Nachos</h3>
+            <p>Layer after layer of smoked pulled pork, melted cheese, and jalapeños — done on the grill, not the oven.</p>
+            <div class="card-footer-row">
+              <div class="card-meta">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 25 min</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 6–8</span>
+              </div>
+              <a href="#" class="card-link">Recipe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 9 -->
+        <article class="recipe-card fade-up" data-category="seafood">
+          <div class="card-img">
+            <img src="https://images.unsplash.com/photo-1519708227418-c8fd9a32b7a2?w=600&q=80" alt="Cedar Plank Salmon" loading="lazy">
+            <span class="card-category cat-seafood">Seafood</span>
+          </div>
+          <div class="card-body">
+            <h3>Cedar Plank Salmon</h3>
+            <p>Wild-caught salmon on a soaked cedar plank, glazed with maple-dijon and kissed by smoke. Light but unforgettable.</p>
+            <div class="card-footer-row">
+              <div class="card-meta">
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg> 35 min</span>
+                <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> 4</span>
+              </div>
+              <a href="#" class="card-link">Recipe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12,5 19,12 12,19"/></svg></a>
+            </div>
+          </div>
+        </article>
+
+        <!-- No results placeholder -->
+        <div class="no-results" id="no-results">No recipes found in this category yet — check back soon!</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== NEWSLETTER ==================== -->
+  <section class="newsletter-section" aria-label="Newsletter signup">
+    <div class="container">
+      <div class="newsletter-inner">
+        <div class="newsletter-text">
+          <span class="section-label" style="color:rgba(255,255,255,0.6);">Never Miss a Recipe</span>
+          <h2>Get New Recipes First</h2>
+          <p>Subscribe and be the first to get every new recipe Ken drops — plus exclusive tips and Twitch alerts.</p>
+        </div>
+        <div>
+          <form class="newsletter-form" aria-label="Email signup form">
+            <div class="form-row">
+              <label for="email-sub-r" class="sr-only">Email address</label>
+              <input type="email" id="email-sub-r" placeholder="your@email.com" required autocomplete="email">
+              <button type="submit" class="btn-submit">Subscribe</button>
+            </div>
+            <p class="disclaimer">No spam, ever. Unsubscribe anytime.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="logo-text">Ken's <span>Flavor Forge</span></div>
+          <p>Bold recipes, big flavor, and live cooking every week on Twitch.</p>
+          <div class="footer-social">
+            <a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener" aria-label="Twitch">🟣</a>
+            <a href="#" aria-label="YouTube">📺</a>
+            <a href="#" aria-label="Instagram">📸</a>
+            <a href="#" aria-label="TikTok">🎵</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="recipes.html">Recipes</a></li>
+            <li><a href="videos.html">Stream</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Categories</h4>
+          <ul>
+            <li><a href="recipes.html">Grilling</a></li>
+            <li><a href="recipes.html">Smoking</a></li>
+            <li><a href="recipes.html">Cast Iron</a></li>
+            <li><a href="recipes.html">Low & Slow</a></li>
+            <li><a href="recipes.html">Game Day</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Connect</h4>
+          <ul>
+            <li><a href="https://twitch.tv/YOUR_TWITCH_USERNAME" target="_blank" rel="noopener">Watch on Twitch</a></li>
+            <li><a href="#">Subscribe on YouTube</a></li>
+            <li><a href="#">Follow on Instagram</a></li>
+            <li><a href="contact.html">Work With Ken</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Ken's Flavor Forge. All rights reserved.</p>
+        <p>Made with 🔥 in Ken's kitchen.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
