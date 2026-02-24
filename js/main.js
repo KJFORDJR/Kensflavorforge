@@ -146,12 +146,12 @@
 })();
 
 /* --- Twitch live status check ---
-   Replace 'YOUR_TWITCH_USERNAME' with Ken's actual channel name.
+   Replace 'MerlinReturned' with Ken's actual channel name.
    This uses the Twitch Helix API — requires a Client-ID token for production.
    For now we display a static "Watch on Twitch" badge.
 --- */
 (function () {
-  const TWITCH_CHANNEL = 'YOUR_TWITCH_USERNAME'; // <-- UPDATE THIS
+  const TWITCH_CHANNEL = 'MerlinReturned'; // <-- UPDATE THIS
 
   const badges = document.querySelectorAll('.live-badge');
   badges.forEach(badge => {
